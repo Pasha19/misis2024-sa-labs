@@ -1,7 +1,4 @@
-from typing import Callable
-
 import task
-
 
 
 def main() -> None:
@@ -69,7 +66,7 @@ def main() -> None:
 }"""
     map_temp_rule = """[
     ["холодно", "интенсивный"],
-    ["нормально", "умеренный"],
+    ["комфортно", "умеренный"],
     ["жарко", "слабый"]
 ] """
     print(task.main(data_temp, rule_data, map_temp_rule, 19))

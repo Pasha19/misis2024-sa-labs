@@ -47,15 +47,15 @@ def inv_linear_by_points(x0: float, y0: float, x1: float, y1: float) -> Callable
     return func
 
 
-def inv_func_by_points(points: list[list[int]]) -> Callable[[float], float]:
+def inv_func_by_points(points: list[list[int]]) -> Callable[[float], list[float]]:
     p = list(zip(*points))
     px = p[0]
     py = p[1]
     f = [inv_linear_by_points(px[i], py[i], px[i + 1], py[i + 1]) for i in range(3)]
-    def func(y: float) -> float:
+    def func(y: float) -> list[float]:
         res = [fi(y) for fi in f]
         res = [v for v in res if v is not None]
-        return max(res)
+        return res
     return func
 
 
@@ -70,5 +70,8 @@ def main(temp_json: str, rule_json: str, map_temp_rule: str, temp: float) -> flo
     map_temp_rule_data = json.loads(map_temp_rule)
     map_temp_rule_norm = {v[0]:v[1] for v in map_temp_rule_data}
 
-    key = max(temp_data_values, key=temp_data_values.get)
-    return rule_data_norm[map_temp_rule_norm[key]](temp_data_values[key])
+    loc_max = [rule_data_norm[map_temp_rule_norm[name]](val) for name, val in temp_data_values.items()]
+    loc_max = [min(s) for s in loc_max]
+    loc_max = [s for s in loc_max if s > 0]
+
+    return min(loc_max)
