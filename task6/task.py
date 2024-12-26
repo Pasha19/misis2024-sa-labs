@@ -74,4 +74,4 @@ def main(temp_json: str, rule_json: str, map_temp_rule: str, temp: float) -> flo
     loc_max = [min(s) for s in loc_max]
     loc_max = [s for s in loc_max if s > 0]
 
-    return min(loc_max)
+    return max(loc_max)
